@@ -4,6 +4,19 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL || '';
 axios.defaults.baseURL = API_URL;
 
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers = config.headers || {};
+    if (typeof config.headers.set === 'function') {
+      config.headers.set('Authorization', `Bearer ${token}`);
+    } else {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
 // Global response interceptor — catches 401 (expired/invalid token) across ALL requests
 axios.interceptors.response.use(
   (response) => response,

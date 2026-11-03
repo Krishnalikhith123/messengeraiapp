@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../store/authStore';
 import StoryViewer from '../components/StoryViewer';
 import StoryCreator from '../components/StoryCreator';
+import ReelsViewer from '../components/ReelsViewer';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { FiArrowLeft, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiArrowLeft, FiPlus, FiSearch, FiZap } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import '../styles/StoriesPage.css';
 
@@ -14,6 +15,7 @@ function StoriesPage() {
   const [stories, setStories] = useState([]);
   const [selectedStory, setSelectedStory] = useState(null);
   const [showCreator, setShowCreator] = useState(false);
+  const [showReels, setShowReels] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all'); // all, friends, my
@@ -105,6 +107,27 @@ function StoriesPage() {
             <h1>Stories</h1>
             <p className="stories-subtitle">Share your moments</p>
           </div>
+          <button 
+            className="watch-reels-btn"
+            onClick={() => setShowReels(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '10px 18px',
+              background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '20px',
+              fontWeight: '700',
+              cursor: 'pointer',
+              boxShadow: '0 4px 15px rgba(236, 72, 153, 0.3)',
+              transition: 'transform 0.2s ease',
+              marginRight: '12px'
+            }}
+          >
+            <span>🎬 Reels</span>
+          </button>
           <button 
             className="create-story-btn"
             onClick={() => setShowCreator(true)}
@@ -285,6 +308,12 @@ function StoriesPage() {
           </div>
         )}
       </div>
+      {showReels && (
+        <ReelsViewer
+          stories={stories || []}
+          onClose={() => setShowReels(false)}
+        />
+      )}
     </div>
   );
 }

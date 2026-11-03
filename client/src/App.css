@@ -6,6 +6,50 @@
   overflow: hidden;
 }
 
+/* Scrollable area below navbar for standalone pages */
+.app-route-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.app-route-shell > .app-scroll-page {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 72px 20px 48px;
+  box-sizing: border-box;
+}
+
+.app-route-shell > .chat-page {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+}
+
+/* Pages with their own scroll (no app-scroll-page wrapper) */
+.app-route-shell > .stories-page,
+.app-route-shell > .profile-page,
+.app-route-shell > .contacts-page,
+.app-route-shell > .chat-history-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-route-shell > .contacts-page {
+  overflow-y: auto;
+}
+
 /* Glassmorphism reset for router transitions */
 .page-transition-wrapper {
   flex: 1;

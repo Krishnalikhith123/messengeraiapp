@@ -32,6 +32,14 @@ const eventSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
+  isOver: {
+    type: Boolean,
+    default: false
+  },
+  rsvps: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    status: { type: String, enum: ['going', 'maybe', 'declined'], default: 'going' }
+  }],
   createdAt: {
     type: Date,
     default: Date.now

@@ -1,0 +1,327 @@
+.game-select-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  max-width: 320px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-select-card h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.game-select-card p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.rps-container, .trivia-container, .wordle-container, .numberguess-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.rps-container button, .trivia-container button {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.game-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.game-buttons button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.game-buttons button:hover {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: rgba(96, 165, 250, 0.3);
+  color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+.game-active-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.game-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-card-header h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: 0.05em;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.status-badge.active {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+.status-badge.finished {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+}
+
+.tictactoe-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tictactoe-cell {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tictactoe-cell:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tictactoe-cell.X {
+  color: #ef4444;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+.tictactoe-cell.O {
+  color: #3b82f6;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+.game-turn-info {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.wordguess-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.word-blanks {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.blank-char {
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-bottom: 2px solid #64748b;
+  width: 24px;
+  text-align: center;
+  color: #f8fafc;
+}
+
+.guessed-list, .attempts-left {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.guess-input-form {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.guess-input-form input {
+  flex-grow: 1;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  padding: 8px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.guess-input-form button {
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.truthordare-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.tod-buttons {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.tod-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.truth-btn {
+  background: #10b981;
+  color: white;
+}
+
+.dare-btn {
+  background: #f59e0b;
+  color: white;
+}
+
+.tod-buttons button:hover {
+  transform: scale(1.03);
+}
+
+.prompt-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.type-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.type-tag.truth {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.type-tag.dare {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.prompt-text {
+  font-size: 0.95rem;
+  color: #f1f5f9;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.game-over-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.game-result {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f59e0b;
+}
+
+.play-again-btn {
+  background: #8b5cf6;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.play-again-btn:hover {
+  background: #7c3aed;
+}
+
+.fun-zone-link { text-align: center; margin-top: 10px; font-size: 0.85rem; }
+.fun-zone-link a { color: #a5b4fc; }
+.rps-score, .trivia-round { font-size: 0.85rem; opacity: 0.9; margin-bottom: 8px; }
+
+.sticker-catalog-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sticker-quick-btn {
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.sticker-studio-label { font-size: 0.85rem; opacity: 0.85; margin-bottom: 8px; }

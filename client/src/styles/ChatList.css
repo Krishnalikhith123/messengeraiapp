@@ -650,3 +650,58 @@
   from { transform: translateY(8px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+.inbox-folders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.inbox-folders button {
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inbox-folders button.active {
+  background: var(--primary, #667eea);
+  color: #fff;
+  border-color: transparent;
+}
+
+.chat-item { position: relative; }
+.chat-item.pinned-chat { border-left: 3px solid #eab308; }
+.pin-icon { color: #eab308; margin-right: 4px; vertical-align: middle; }
+
+.chat-context-menu {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.chat-context-menu button {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-primary);
+}

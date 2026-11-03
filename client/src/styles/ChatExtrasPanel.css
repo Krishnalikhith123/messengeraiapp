@@ -1,0 +1,116 @@
+.chat-extras-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-extras-panel {
+  width: 90%;
+  max-width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 16px;
+  color: #e2e8f0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.chat-extras-panel header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.chat-extras-panel header h3 { margin: 0; }
+.chat-extras-panel header button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.extras-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.extras-tabs button {
+  flex: 1;
+  min-width: 70px;
+  padding: 8px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.2);
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.extras-tabs button.active {
+  background: #667eea;
+  color: #fff;
+}
+
+.extras-tab-body input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: #fff;
+}
+
+.extras-tab-body button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 8px;
+  background: #667eea;
+  color: #fff;
+  cursor: pointer;
+}
+
+.extras-tab-body .voice-on { background: #22c55e; }
+.extras-tab-body .hint { font-size: 0.8rem; opacity: 0.7; }
+
+.watch-iframe {
+  width: 100%;
+  height: 200px;
+  border: none;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.theme-picks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.theme-picks button {
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.react-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+.react-cloud span {
+  background: rgba(102,126,234,0.3);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}

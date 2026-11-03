@@ -1,0 +1,78 @@
+.location-message-card {
+  width: 260px;
+  background: rgba(30, 41, 59, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.location-pin-icon {
+  color: #ef4444;
+  animation: bounce 2s infinite;
+}
+
+.location-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.location-map-container {
+  height: 180px;
+  background: #1e293b;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.location-iframe {
+  filter: invert(90%) hue-rotate(180deg);
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+
+.location-iframe:hover {
+  opacity: 1;
+}
+
+.view-maps-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8 !important;
+  text-decoration: none;
+  background: rgba(56, 189, 248, 0.08);
+  transition: all 0.2s ease;
+}
+
+.view-maps-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  color: #0ea5e9 !important;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}

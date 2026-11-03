@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { useChatStore } from '../store/chatStore';
+import { useChatStore, normalizeChatsList } from '../store/chatStore';
 import { FiArrowLeft, FiSearch, FiTrash2 } from 'react-icons/fi';
 import { formatDistanceToNow } from 'date-fns';
 import toast from 'react-hot-toast';
@@ -20,7 +20,7 @@ function ChatHistoryPage() {
     fetchChats();
   }, [fetchChats]);
 
-  const filteredChats = chats.filter(chat => {
+  const filteredChats = normalizeChatsList(chats).filter((chat) => {
     const participant = chat.participants.find(p => p._id !== user.id);
     const name = participant?.username || chat.groupName || 'Unknown';
     return name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -43,9 +43,8 @@ function ChatHistoryPage() {
     if (window.confirm('Are you sure you want to clear this chat? Messages will be deleted.')) {
       try {
         setIsLoading(true);
-        // Delete all messages in this chat
-        await axios.delete(`/api/chats/${chatId}`);
-        toast.success('Chat cleared successfully');
+        await axios.delete(`/api/chats/${chatId}/messages`);
+        toast.success('Messages cleared successfully');
         await fetchChats();
       } catch (error) {
         toast.error('Failed to clear chat');

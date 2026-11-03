@@ -1,0 +1,231 @@
+.music-status-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 16px 20px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin: 12px 0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.music-status-card.playing {
+  border-color: rgba(167, 139, 250, 0.3);
+  background: rgba(118, 75, 162, 0.08);
+}
+
+.vinyl-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vinyl-disc {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #334155 30%, #0f172a 70%);
+  border-radius: 50%;
+  border: 2px solid #475569;
+  position: relative;
+  animation: spin 3s linear infinite;
+  animation-play-state: paused;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.music-status-card.playing .vinyl-disc {
+  animation-play-state: running;
+}
+
+.vinyl-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: #a78bfa;
+  border-radius: 50%;
+  border: 2px solid #1e293b;
+}
+
+.music-center-icon {
+  position: absolute;
+  color: #ffffff;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 2;
+  animation: float 2s ease-in-out infinite;
+}
+
+.music-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.song-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-name {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.no-music-text {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.waveform-animation {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+  margin-top: 8px;
+}
+
+.wave-bar {
+  width: 3px;
+  height: 100%;
+  background: #a78bfa;
+  border-radius: 999px;
+  transform-origin: bottom;
+  animation: bounceBar 1.2s ease-in-out infinite alternate;
+}
+
+.wave-bar:nth-child(2) {
+  animation-delay: 0.2s;
+  height: 70%;
+  background: #c084fc;
+}
+
+.wave-bar:nth-child(3) {
+  animation-delay: 0.4s;
+  height: 40%;
+  background: #fb7185;
+}
+
+.wave-bar:nth-child(4) {
+  animation-delay: 0.1s;
+  height: 85%;
+  background: #60a5fa;
+}
+
+.music-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.music-toggle-btn, .music-add-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.music-toggle-btn:hover, .music-add-btn:hover {
+  background: rgba(167, 139, 250, 0.2);
+  border-color: rgba(167, 139, 250, 0.3);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.music-status-edit-form {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 20px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.music-status-edit-form h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.music-status-edit-form input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.music-status-edit-form input:focus {
+  outline: none;
+  border-color: #a78bfa;
+}
+
+.music-edit-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.music-save-btn {
+  background: #a78bfa;
+  color: #1e1b4b;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.music-cancel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes bounceBar {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}

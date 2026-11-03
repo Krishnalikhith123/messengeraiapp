@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useChatStore } from '../store/chatStore';
+import { useChatStore, normalizeChatsList } from '../store/chatStore';
 import { useAuthStore } from '../store/authStore';
 import { useSocketStore } from '../store/socketStore';
 import ChatList from '../components/ChatList';
@@ -12,7 +12,7 @@ function ChatPage() {
   const { chatId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { chats, currentChat, messages, fetchChats, getOrCreateChat, fetchMessages } = useChatStore();
+  const { chats, currentChat, messages, fetchChats, getOrCreateChat, fetchMessages, setCurrentChat, setMessages } = useChatStore();
   const { socket } = useSocketStore();
   const [selectedChat, setSelectedChat] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,15 +30,20 @@ function ChatPage() {
 
   useEffect(() => {
     if (chatId) {
-      const chat = chats.find(c => c._id === chatId);
+      const chat = normalizeChatsList(chats).find((c) => c._id === chatId);
       if (chat) {
         setSelectedChat(chat);
-        fetchMessages(chatId);
+        setCurrentChat(chat);
+        fetchMessages(chatId).catch(() => {
+          toast.error('Failed to load messages');
+        });
       }
     } else {
       setSelectedChat(null);
+      setCurrentChat(null);
+      setMessages([]);
     }
-  }, [chatId, chats, fetchMessages]);
+  }, [chatId, chats, fetchMessages, setCurrentChat, setMessages]);
 
   const handleSelectChat = async (chat) => {
     setSelectedChat(chat);

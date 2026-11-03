@@ -74,6 +74,36 @@
   border-bottom-left-radius: 4px;
 }
 
+.edit-message-inline textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background: rgba(0, 0, 0, 0.2);
+  color: inherit;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.edit-actions button {
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.edit-actions button:first-child {
+  background: var(--primary-color);
+  color: white;
+}
+
 .message-content p {
   margin: 0;
   font-size: 15px;
@@ -511,3 +541,937 @@
   margin: 0;
   line-height: 1.5;
 }
+
+/* 🌐 Translation Styling */
+.translation-result {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 3px solid #2196f3;
+  border-radius: 6px;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.message.received .translation-result {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+.translation-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2196f3;
+  display: block;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.translation-text {
+  margin: 0 !important;
+  font-size: 0.85rem !important;
+}
+
+.translation-trigger-container {
+  position: relative;
+  margin-top: 6px;
+  display: flex;
+}
+
+.bubble-action-btn-tiny {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.message.received .bubble-action-btn-tiny {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.bubble-action-btn-tiny:hover {
+  background: rgba(33, 150, 243, 0.2);
+  border-color: #2196f3;
+}
+
+/* Language picker pill dropdown */
+.lang-picker-dropdown {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 100;
+  min-width: 100px;
+}
+
+.dark-mode .lang-picker-dropdown {
+  background: rgba(30, 30, 35, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.lang-picker-dropdown button {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  text-align: left;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #333;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.dark-mode .lang-picker-dropdown button {
+  color: #fff;
+}
+
+.lang-picker-dropdown button:hover {
+  background: rgba(33, 150, 243, 0.1);
+  color: #2196f3;
+}
+
+/* 📝 Voice message transcribing styling */
+.voice-transcription-result {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #e91e63;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.message.sent .voice-transcription-result {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.transcription-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #e91e63;
+  display: block;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+/* ⏳ Vanish message countdown timer bubble styling */
+.vanish-bubble-timer {
+  font-size: 0.72rem;
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.15);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  padding: 2px 6px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 6px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  animation: pulse 1.5s infinite;
+}
+
+.image-vanish-timer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  margin-top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ff4757;
+  border-color: #ff4757;
+  backdrop-filter: blur(4px);
+}
+
+.message.is-vanish .message-content {
+  border: 1.5px solid rgba(255, 71, 87, 0.4) !important;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.15);
+}
+
+/* 📚 Kane Matte-Black Academic Workspace Bubbles */
+.workspace-matte-bubble {
+  background: linear-gradient(135deg, #090d16, #121824) !important;
+  border: 1.5px solid rgba(168, 85, 247, 0.35) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 12px rgba(168, 85, 247, 0.15) !important;
+  color: #f1f5f9 !important;
+  border-radius: 16px !important;
+}
+
+.workspace-matte-header {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #c084fc;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+/* 🎨 Transparent Inline Vector Stickers */
+.sticker-bubble {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.sticker-svg-container {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.4));
+  animation: stickerFloat 3s ease-in-out infinite;
+}
+
+@keyframes stickerFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* 💸 Ad-Hoc Split Bill Cards */
+.adhoc-bill-card {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1.5px solid rgba(59, 130, 246, 0.3) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 10px rgba(59, 130, 246, 0.1) !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  width: 280px;
+}
+
+.bill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.bill-card-icon {
+  font-size: 24px;
+  filter: drop-shadow(0 0 8px #3b82f6);
+}
+
+.bill-card-header h4 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.bill-card-header p {
+  margin: 2px 0 0 0;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.bill-splits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bill-split-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.bill-split-row.paid {
+  border-color: rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.bill-split-row.pending {
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.bill-split-username {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-amt {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.settled-lbl {
+  font-size: 10px;
+  font-weight: bold;
+  color: #4ade80;
+}
+
+.unpaid-lbl {
+  font-size: 10px;
+  font-weight: bold;
+  color: #f87171;
+}
+
+.settle-split-btn {
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settle-split-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+/* 🏠 Roommate Billing Vault Ledger Dashboard */
+.roommate-ledger-panel {
+  margin: 15px;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: slideDownLedger 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideDownLedger {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ledger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ledger-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #c084fc;
+}
+
+.current-month-badge {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: rgba(192, 132, 252, 0.15);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  color: #c084fc;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.ledger-summary-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.summary-card {
+  flex: 1;
+  background: rgba(10, 15, 30, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.card-lbl {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: bold;
+}
+
+.card-val {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.roommates-payment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roommate-payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.roommate-payment-row.paid {
+  background: rgba(34, 197, 94, 0.04);
+  border-color: rgba(34, 197, 94, 0.15);
+}
+
+.roommate-payment-row.pending {
+  background: rgba(239, 68, 68, 0.04);
+  border-color: rgba(239, 68, 68, 0.15);
+}
+
+.roommate-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roommate-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.roommate-name {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.payment-date {
+  display: block;
+  font-size: 9px;
+  color: #64748b;
+}
+
+.settle-dues-btn {
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.settle-dues-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+}
+
+.paid-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.pending-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ef4444;
+}
+
+/* 🔒 Blocked Roommate Input Composer */
+.billing-vault-input-blocked {
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  text-align: center;
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Direct Ephemeral Snaps Capsule & Fullscreen Viewer Styles */
+.direct-snap-bubble {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.snap-bubble-card {
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: white;
+}
+
+.direct-snap-bubble.unopened .snap-bubble-card {
+  background: linear-gradient(135deg, #ec4899, #d946ef);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.direct-snap-bubble.opened .snap-bubble-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pulse-glow {
+  animation: pulseGlowPink 2s infinite alternate;
+}
+
+@keyframes pulseGlowPink {
+  0% { transform: scale(1); box-shadow: 0 4px 10px rgba(236, 72, 153, 0.3); }
+  100% { transform: scale(1.03); box-shadow: 0 4px 20px rgba(236, 72, 153, 0.6), 0 0 10px rgba(217, 70, 239, 0.3); }
+}
+
+.fullscreen-snap-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(9, 13, 22, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.snap-viewer-card {
+  width: 90%;
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.snap-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-row-align {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.snap-viewer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ec4899;
+  object-fit: cover;
+}
+
+.snap-viewer-username {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+.snap-viewer-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 2px 0 0 0;
+}
+
+/* Real-time Circular Snap Countdown Ring */
+.snap-viewer-timer-container {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-ring-svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.timer-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 3.5;
+}
+
+.timer-ring-fill {
+  fill: none;
+  stroke: #ec4899;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  transition: stroke-dasharray 1s linear;
+}
+
+.snap-countdown-digit {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ec4899;
+  text-shadow: 0 0 5px rgba(236, 72, 153, 0.3);
+}
+
+.snap-viewer-body {
+  width: 100%;
+  aspect-ratio: 9/16;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+}
+
+.snap-viewer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.snap-viewer-footer {
+  display: flex;
+  gap: 12px;
+}
+
+.snap-action-btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.snap-action-btn.save-btn {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.snap-action-btn.save-btn:hover {
+  background: #f1f5f9;
+  transform: translateY(-1.5px);
+}
+
+.snap-action-btn.close-btn {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.snap-action-btn.close-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1.5px);
+}
+
+.animate-pop {
+  animation: scalePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scalePop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 📊 Poll Message Styling */
+.poll-message-card {
+  min-width: 250px;
+  max-width: 320px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.poll-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 8px;
+}
+
+.poll-icon {
+  font-size: 20px;
+}
+
+.poll-header h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.poll-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.poll-option-row {
+  position: relative;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.poll-option-row:hover {
+  border-color: #7c3aed;
+}
+
+.poll-option-row.voted {
+  border-color: #7c3aed;
+  font-weight: 700;
+}
+
+.poll-option-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(124, 58, 237, 0.12);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.poll-option-label {
+  position: relative;
+  z-index: 2;
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.poll-option-pct {
+  position: relative;
+  z-index: 2;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* 📍 Location Message Styling */
+.location-message-card {
+  min-width: 240px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.location-icon {
+  font-size: 28px;
+}
+
+.location-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.location-header p {
+  margin: 2px 0 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.view-map-link-btn {
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.view-map-link-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* 🎁 Gift Card Message Styling */
+.giftcard-message-card {
+  min-width: 250px;
+  border-radius: 20px;
+  padding: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.giftcard-message-card.unredeemed {
+  background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
+  background-size: 200% 200%;
+  animation: hologramWave 4s ease infinite;
+}
+
+.giftcard-message-card.redeemed {
+  background: #334155;
+  opacity: 0.85;
+}
+
+.giftcard-hologram {
+  text-align: center;
+  color: white;
+  padding: 12px 0;
+}
+
+.giftcard-hologram .gift-emoji {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 8px;
+  animation: bounce 2s infinite;
+}
+
+.giftcard-hologram h3 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+}
+
+.giftcard-hologram p {
+  font-size: 13px;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.redeem-giftcard-btn {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  color: #7c3aed;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.redeem-giftcard-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gift-redeemed-banner {
+  text-align: center;
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+@keyframes hologramWave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* 🤖 Smart Reply Chips */
+.smart-replies-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px 16px 16px;
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+
+.smart-reply-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.smart-reply-chip:hover {
+  border-color: #7c3aed;
+  background: #7c3aed;
+  color: white;
+  transform: translateY(-1px);
+}
+

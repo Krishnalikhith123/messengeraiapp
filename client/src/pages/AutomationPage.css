@@ -1,0 +1,128 @@
+.automation-page {
+  color: #e2e8f0;
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.18), transparent 34%),
+    linear-gradient(135deg, #08111f 0%, #101827 46%, #1b1026 100%);
+}
+
+.automation-hero,
+.automation-builder,
+.automation-rule {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto 18px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.78);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.automation-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.automation-hero h1 {
+  margin: 0 0 6px;
+  font-size: 1.7rem;
+}
+
+.automation-hero p,
+.automation-rule p {
+  color: #94a3b8;
+  margin: 0;
+}
+
+.automation-hero svg {
+  width: 42px;
+  height: 42px;
+  color: #2dd4bf;
+}
+
+.automation-builder textarea {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(2, 6, 23, 0.75);
+  color: #f8fafc;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.automation-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.automation-actions button,
+.rule-buttons button {
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.automation-actions button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  font-weight: 800;
+}
+
+.automation-actions button:first-child {
+  background: rgba(148, 163, 184, 0.16);
+}
+
+.automation-preview {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(20, 184, 166, 0.12);
+}
+
+.automation-list {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.automation-rule {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.automation-rule.disabled {
+  opacity: 0.58;
+}
+
+.automation-rule h3 {
+  margin: 0 0 6px;
+}
+
+.automation-rule small {
+  display: block;
+  color: #64748b;
+  margin-top: 8px;
+}
+
+.rule-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.rule-buttons button {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: rgba(148, 163, 184, 0.15);
+  color: #e2e8f0;
+}

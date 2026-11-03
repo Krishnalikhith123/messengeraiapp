@@ -4,12 +4,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
   animation: fadeIn 0.3s ease;
+  padding: 12px 0;
+  overflow-y: auto;
 }
 
 @keyframes fadeIn {
@@ -23,20 +26,22 @@
 
 .story-creator {
   background: white;
-  border-radius: 16px;
-  padding: 32px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 720px;
+  width: 95%;
+  min-height: 80vh;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+  margin: auto;
+  max-height: 92vh;
+  overflow-y: auto;
 }
 
 .story-creator h2 {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
   color: #000;
 }
 
@@ -67,8 +72,8 @@
 .creator-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .media-preview {
@@ -198,3 +203,699 @@
     font-size: 20px;
   }
 }
+
+/* Webcam & High-Fidelity Filters Upgrade */
+.media-selector-box {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  background: rgba(15, 23, 42, 0.04);
+  border: 2px dashed rgba(7, 94, 84, 0.3);
+  border-radius: 16px;
+  padding: 20px 16px;
+  flex-wrap: wrap;
+}
+
+.selector-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.camera-sel {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: white;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+}
+
+.camera-sel:hover {
+  background: linear-gradient(135deg, #0369a1, #0284c7);
+  transform: translateY(-2px);
+}
+
+.file-sel {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.file-sel:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.divider-or {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.camera-preview-container {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+}
+
+.video-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror camera feed */
+  transition: filter 0.3s ease;
+  z-index: 1;
+}
+
+/* Lenses GPU Filters */
+.filter-vhs {
+  filter: contrast(1.25) saturate(0.7) sepia(0.15) brightness(1.05);
+}
+
+.filter-neon {
+  filter: hue-rotate(280deg) saturate(2) contrast(1.15);
+}
+
+.vhs-scanlines-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #ef4444;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  font-size: 18px;
+  z-index: 5;
+  animation: blink 1s infinite steps(2);
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+}
+
+.vhs-static-stamp {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #f59e0b;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  font-size: 16px;
+  z-index: 5;
+  letter-spacing: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.floating-crown-svg {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 80px;
+  z-index: 5;
+  pointer-events: none;
+  animation: floatCrown 3s ease-in-out infinite;
+}
+
+@keyframes floatCrown {
+  0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  50% { transform: translateX(-50%) translateY(-10px) rotate(3deg); }
+}
+
+.lens-slider {
+  position: absolute;
+  bottom: 96px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 10px 16px;
+  z-index: 10;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lens-slider button {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lens-slider button.active {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.camera-controls {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.capture-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 4px solid #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.capture-btn:hover {
+  transform: scale(1.08);
+}
+
+.capture-btn .inner-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: all 0.1s ease;
+}
+
+.capture-btn:active .inner-circle {
+  transform: scale(0.9);
+  background: #ef4444;
+}
+
+.camera-controls .text-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Draggable Stickers & Overlays */
+.media-preview-container {
+  position: relative;
+  width: 100%;
+}
+
+.media-preview {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.media-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.draggable-sticker {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  z-index: 10;
+  touch-action: none;
+}
+
+.draggable-sticker:active {
+  cursor: grabbing;
+}
+
+.draggable-sticker svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.overlay-editor-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.change-img-btn {
+  width: 100%;
+  padding: 10px;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.change-img-btn:hover {
+  background: #fecaca;
+}
+
+.ai-sticker-creator {
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.ai-sticker-creator .flex-row {
+  display: flex;
+  gap: 8px;
+}
+
+.ai-sticker-creator input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.ai-sticker-creator input:focus {
+  border-color: #075e54;
+}
+
+.ai-sticker-creator button {
+  background: #0f172a;
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-sticker-creator button:hover:not(:disabled) {
+  background: #1e293b;
+  transform: scale(1.05);
+}
+
+.caption-textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Real-time Face Filter Overlays */
+.realtime-filter-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.dog-filter .dog-ears-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8%;
+  box-sizing: border-box;
+}
+
+.dog-filter .dog-ear.left {
+  transform: rotate(-15deg) translateY(-20px);
+}
+
+.dog-filter .dog-ear.right {
+  transform: rotate(15deg) translateY(-20px);
+}
+
+.dog-filter .dog-nose-wrapper {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cat-filter .cat-ears-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12%;
+  box-sizing: border-box;
+}
+
+.cat-filter .cat-ear.left {
+  transform: translateY(-35px) rotate(-5deg);
+}
+
+.cat-filter .cat-ear.right {
+  transform: translateY(-35px) rotate(5deg);
+}
+
+.cat-filter .cat-nose-wrapper {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Highlight create button */
+.highlight-btn {
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+  transition: all 0.3s ease !important;
+}
+
+.highlight-btn:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45) !important;
+  background: linear-gradient(135deg, #db2777, #7c3aed) !important;
+}
+
+/* =====================================================
+   VIDEO / IMAGE CSS FILTERS (applied via class)
+   ===================================================== */
+
+/* VHS Retro */
+.filter-vhs {
+  filter: contrast(1.2) saturate(0.6) sepia(0.4);
+}
+
+/* Cyber Neon */
+.filter-neon {
+  filter: brightness(1.1) contrast(1.3) hue-rotate(200deg) saturate(2);
+}
+
+/* Glitch */
+.filter-glitch {
+  filter: contrast(1.5) saturate(1.8) hue-rotate(30deg);
+}
+
+/* Pixelate – approximate with blur + contrast */
+.filter-pixelate {
+  filter: blur(0.5px) contrast(1.4) saturate(1.2);
+  image-rendering: pixelated;
+}
+
+/* Sunflower – warm golden tones */
+.filter-sunflower {
+  filter: brightness(1.15) saturate(1.5) sepia(0.2) hue-rotate(10deg);
+}
+
+/* Space – cool dark purple tones */
+.filter-space {
+  filter: brightness(0.85) contrast(1.2) hue-rotate(240deg) saturate(1.4);
+}
+
+/* Rainbow – vivid saturation boost */
+.filter-rainbow {
+  filter: saturate(3) brightness(1.1) contrast(1.1);
+}
+
+/* Fire – warm amber red */
+.filter-fire {
+  filter: brightness(1.1) saturate(2) sepia(0.5) hue-rotate(-20deg) contrast(1.2);
+}
+
+/* Vintage – classic warm sepia */
+.filter-vintage {
+  filter: sepia(0.65) contrast(1.1) brightness(0.95) saturate(0.8);
+}
+
+/* Black & White */
+.filter-blackwhite {
+  filter: grayscale(1) contrast(1.2);
+}
+
+/* Crown: no image filter */
+.filter-crown { filter: none; }
+.filter-dog   { filter: none; }
+.filter-cat   { filter: none; }
+.filter-none  { filter: none; }
+
+/* =====================================================
+   GLITCH OVERLAY
+   ===================================================== */
+.glitch-overlay {
+  pointer-events: none;
+}
+
+.glitch-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 255, 200, 0.55);
+  mix-blend-mode: screen;
+}
+
+.glitch-bar-1 {
+  top: 20%;
+  animation: glitchShift 0.5s steps(2, end) infinite;
+}
+
+.glitch-bar-2 {
+  top: 50%;
+  background: rgba(255, 0, 100, 0.5);
+  animation: glitchShift 0.7s steps(3, end) infinite reverse;
+}
+
+.glitch-bar-3 {
+  top: 75%;
+  height: 2px;
+  background: rgba(255, 230, 0, 0.5);
+  animation: glitchShift 0.9s steps(4, end) infinite;
+}
+
+@keyframes glitchShift {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-8px); }
+  50%  { transform: translateX(6px); }
+  75%  { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+.glitch-text {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 900;
+  color: #00ffe5;
+  text-shadow: 2px 0 #ff0064, -2px 0 #ffe600;
+  letter-spacing: 4px;
+  animation: glitchText 0.6s steps(2) infinite;
+}
+
+@keyframes glitchText {
+  0%   { text-shadow:  2px 0 #ff0064, -2px 0 #ffe600; }
+  33%  { text-shadow: -2px 0 #ff0064,  2px 0 #ffe600; }
+  66%  { text-shadow:  3px 0 #00ffe5, -3px 0 #ff0064; }
+  100% { text-shadow:  2px 0 #ff0064, -2px 0 #ffe600; }
+}
+
+/* =====================================================
+   PIXELATE OVERLAY (checkerboard grid illusion)
+   ===================================================== */
+.pixelate-overlay {
+  pointer-events: none;
+}
+
+.pixel-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 12px 12px;
+  border: none;
+}
+
+/* =====================================================
+   SUNFLOWER OVERLAY
+   ===================================================== */
+.sunflower-overlay {
+  pointer-events: none;
+}
+
+.sunflower-emoji {
+  position: absolute;
+  font-size: 36px;
+  animation: floatEmoji 3s ease-in-out infinite;
+}
+
+.sunflower-emoji.top-left    { top: 6px;   left: 6px; }
+.sunflower-emoji.top-right   { top: 6px;   right: 6px; animation-delay: 0.5s; }
+.sunflower-emoji.bottom-left { bottom: 6px; left: 6px; animation-delay: 1s; }
+.sunflower-emoji.bottom-right{ bottom: 6px; right: 6px; animation-delay: 1.5s; }
+
+.sunflower-border {
+  position: absolute;
+  inset: 4px;
+  border: 3px solid rgba(255, 200, 0, 0.55);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* =====================================================
+   SPACE OVERLAY
+   ===================================================== */
+.space-overlay {
+  pointer-events: none;
+}
+
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 40px 40px, 80px 80px;
+  background-position: 0 0, 20px 20px;
+  animation: starsTwinkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes starsTwinkle {
+  from { opacity: 0.5; }
+  to   { opacity: 1;   }
+}
+
+.space-emoji {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 32px;
+  animation: floatEmoji 4s ease-in-out infinite;
+}
+
+.space-planet {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-size: 38px;
+  animation: floatEmoji 5s ease-in-out infinite reverse;
+}
+
+/* =====================================================
+   RAINBOW OVERLAY
+   ===================================================== */
+.rainbow-overlay {
+  pointer-events: none;
+}
+
+.rainbow-arc {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 200px;
+  border-radius: 50%;
+  background: transparent;
+  border: 18px solid transparent;
+  border-top-color: transparent;
+  box-shadow:
+    0 -4px 0 6px rgba(255,0,0,0.35),
+    0 -12px 0 6px rgba(255,165,0,0.35),
+    0 -20px 0 6px rgba(255,255,0,0.35),
+    0 -28px 0 6px rgba(0,200,0,0.35),
+    0 -36px 0 6px rgba(0,100,255,0.35),
+    0 -44px 0 6px rgba(150,0,255,0.35);
+}
+
+.rainbow-star {
+  position: absolute;
+  font-size: 28px;
+  animation: floatEmoji 2.5s ease-in-out infinite;
+}
+
+.rainbow-star.star-l { bottom: 14px; left: 10px; }
+.rainbow-star.star-r { bottom: 14px; right: 10px; animation-delay: 0.7s; }
+
+/* =====================================================
+   FIRE OVERLAY
+   ===================================================== */
+.fire-overlay {
+  pointer-events: none;
+}
+
+.fire-emoji {
+  position: absolute;
+  font-size: 44px;
+  animation: firePulse 0.8s ease-in-out infinite alternate;
+}
+
+.fire-emoji.fire-l { bottom: 0; left: 4px; }
+.fire-emoji.fire-r { bottom: 0; right: 4px; animation-delay: 0.4s; }
+
+@keyframes firePulse {
+  from { transform: scaleY(1)   rotate(-5deg); }
+  to   { transform: scaleY(1.12) rotate(5deg); }
+}
+
+.fire-border {
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(255, 80, 0, 0.5);
+  border-radius: 12px;
+  box-shadow: inset 0 0 20px rgba(255, 80, 0, 0.25);
+}
+
+/* =====================================================
+   SHARED FLOAT ANIMATION
+   ===================================================== */
+@keyframes floatEmoji {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+

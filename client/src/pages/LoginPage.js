@@ -8,10 +8,12 @@ import '../styles/AuthPages.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+  const { login, resetPassword } = useAuthStore();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showReset, setShowReset] = useState(false);
+  const [resetData, setResetData] = useState({ newPassword: '', confirmPassword: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,18 +23,45 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.email || !formData.password) {
+    if (!formData.email?.trim() || !formData.password) {
       toast.error('Please fill in all fields');
       return;
     }
 
     setIsLoading(true);
     try {
-      await login(formData.email, formData.password);
+      await login(formData.email.trim(), formData.password);
       toast.success('Login successful!');
       navigate('/chats');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (!formData.email?.trim()) {
+      toast.error('Enter your email or username first');
+      return;
+    }
+    if (!resetData.newPassword || resetData.newPassword !== resetData.confirmPassword) {
+      toast.error('Passwords must match (min 6 characters)');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const result = await resetPassword(
+        formData.email.trim(),
+        resetData.newPassword,
+        resetData.confirmPassword
+      );
+      toast.success(result.message || 'Password updated! Log in now.');
+      setShowReset(false);
+      setResetData({ newPassword: '', confirmPassword: '' });
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Reset failed');
     } finally {
       setIsLoading(false);
     }
@@ -67,17 +96,18 @@ function LoginPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">Email or Username</label>
               <div className="input-wrapper">
                 <FiMail className="input-icon" />
                 <input
-                  type="email"
+                  type="text"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email"
+                  placeholder="Email or username"
                   disabled={isLoading}
+                  autoComplete="username"
                 />
               </div>
             </motion.div>
@@ -120,7 +150,55 @@ function LoginPage() {
             >
               {isLoading ? 'Logging in...' : 'Login'}
             </motion.button>
+
+            <button
+              type="button"
+              className="forgot-password-link"
+              onClick={() => setShowReset(!showReset)}
+              disabled={isLoading}
+            >
+              {showReset ? 'Back to login' : 'Forgot password?'}
+            </button>
           </form>
+
+          {showReset && (
+            <form onSubmit={handleResetPassword} className="auth-form reset-form">
+              <p className="reset-hint">
+                Set a new password for your account. Use the same email or username as above.
+              </p>
+              <div className="form-group">
+                <label>New Password</label>
+                <div className="input-wrapper">
+                  <FiLock className="input-icon" />
+                  <input
+                    type="password"
+                    value={resetData.newPassword}
+                    onChange={(e) => setResetData((p) => ({ ...p, newPassword: e.target.value }))}
+                    placeholder="Min 6 characters"
+                    minLength={6}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <div className="input-wrapper">
+                  <FiLock className="input-icon" />
+                  <input
+                    type="password"
+                    value={resetData.confirmPassword}
+                    onChange={(e) => setResetData((p) => ({ ...p, confirmPassword: e.target.value }))}
+                    placeholder="Confirm password"
+                    minLength={6}
+                    required
+                  />
+                </div>
+              </div>
+              <button type="submit" className="submit-btn secondary" disabled={isLoading}>
+                {isLoading ? 'Updating...' : 'Update Password'}
+              </button>
+            </form>
+          )}
 
           <motion.div 
             className="auth-footer"

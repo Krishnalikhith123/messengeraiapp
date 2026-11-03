@@ -10,12 +10,13 @@
 }
 
 .nav-container {
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 24px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
 }
 
 .nav-logo {
@@ -81,14 +82,18 @@
 
 .nav-menu {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
   flex: 1;
-  margin: 0 40px;
+  justify-content: center;
+  margin: 0 12px;
+  min-width: 0;
 }
 
 .nav-item {
-  padding: 10px 16px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid transparent;
@@ -96,7 +101,8 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   font-weight: 600;
   font-size: 15px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -122,15 +128,16 @@
 
 .nav-user {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .profile-btn,
 .logout-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   background: var(--bg-glass);
   border: 1px solid var(--border-light);
   color: var(--text-primary);
@@ -140,6 +147,52 @@
   justify-content: center;
   font-size: 20px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.more-menu-wrap {
+  position: relative;
+}
+
+.more-menu-btn .nav-label {
+  display: none;
+}
+
+.more-menu-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 230px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+  z-index: 250;
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 11px;
+  background: transparent;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-weight: 700;
+  text-align: left;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.more-menu-item:hover,
+.more-menu-item.active {
+  background: rgba(99, 102, 241, 0.18);
+  color: #ffffff;
 }
 
 .profile-btn:hover {
@@ -165,32 +218,86 @@
   }
   
   .nav-item {
-    padding: 10px;
+    width: 38px;
+    height: 38px;
   }
 }
 
 /* Mobile Responsive */
 @media (max-width: 600px) {
-  .nav-container {
-    padding: 12px 16px;
+  .navbar {
+    border-bottom: 1px solid var(--border-light);
   }
+
+  .nav-container {
+    padding: 10px 12px 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 10px;
+    align-items: center;
+  }
+
+  .nav-logo {
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    font-size: 26px;
+  }
+
+  .logo-text-container {
+    display: flex;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  .logo-subtitle {
+    display: none;
+  }
+
+  .nav-user {
+    gap: 6px;
+  }
+
+  .profile-btn,
+  .logout-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .snap-score-badge {
+    min-height: 28px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
   .nav-menu {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    grid-column: 1 / -1;
+    position: static;
     width: 100%;
     margin: 0;
-    padding: 12px 16px;
-    background: var(--bg-surface);
-    backdrop-filter: var(--glass-blur);
+    padding: 8px 0 0;
     border-top: 1px solid var(--border-light);
-    justify-content: space-around;
-    z-index: 100;
+    justify-content: flex-start;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-menu::-webkit-scrollbar {
+    display: none;
   }
   
   .nav-item {
     flex-direction: column;
-    padding: 8px;
+    flex: 0 0 56px;
+    width: 56px;
+    height: 48px;
+    padding: 6px 4px;
     gap: 4px;
     font-size: 10px;
   }
@@ -199,12 +306,300 @@
     display: block;
     font-size: 10px;
   }
-  
-  .logo-text-container {
-    display: none;
+
+  .more-menu-btn .nav-label {
+    display: block;
   }
-  
-  .navbar {
-    border-bottom: none;
+
+  .more-menu-panel {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    top: 118px;
+    bottom: auto;
+    width: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
   }
+}
+
+/* Global Snap Nav Button */
+.global-snap-nav-btn {
+  background: linear-gradient(135deg, #db2777, #7c3aed) !important;
+  color: white !important;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+  font-weight: 700;
+  transition: all 0.3s ease;
+  padding: 10px 18px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.global-snap-nav-btn:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  box-shadow: 0 6px 20px rgba(219, 39, 119, 0.6);
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+}
+
+.snap-btn-emoji {
+  font-size: 1.2rem;
+  animation: pulse-shake 2s infinite ease-in-out;
+}
+
+@keyframes pulse-shake {
+  0%, 100% { transform: scale(1) rotate(0); }
+  10% { transform: scale(1.2) rotate(-10deg); }
+  20% { transform: scale(1.2) rotate(10deg); }
+  30% { transform: scale(1) rotate(0); }
+}
+
+/* Contact Picker Modal overlay */
+.snap-contact-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease;
+}
+
+.snap-contact-picker {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+}
+
+.snap-contact-picker h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+.snap-contact-search {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  outline: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.snap-contact-search:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.snap-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 350px;
+  padding-right: 4px;
+}
+
+.snap-contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.snap-contact-item:hover {
+  background: #f8fafc;
+}
+
+.snap-contact-item.selected {
+  background: rgba(124, 58, 237, 0.08);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+.snap-contact-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.snap-contact-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.snap-contact-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.snap-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-weight: 700;
+}
+
+.snap-checkbox.checked {
+  background: #7c3aed;
+  border-color: #7c3aed;
+  color: white;
+}
+
+.snap-picker-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.snap-picker-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  border: none;
+}
+
+.snap-picker-btn.cancel {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.snap-picker-btn.cancel:hover {
+  background: #e2e8f0;
+}
+
+.snap-picker-btn.send {
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  color: white;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.25);
+}
+
+.snap-picker-btn.send:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+}
+
+.snap-picker-btn.send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .global-snap-nav-btn {
+    padding: 6px 10px !important;
+    font-size: 9px !important;
+    gap: 2px !important;
+    flex-direction: column !important;
+    border-radius: 8px !important;
+    flex: 0 0 56px;
+    width: 56px;
+    height: 48px;
+    justify-content: center;
+  }
+  .global-snap-nav-btn .nav-label {
+    display: block;
+    font-size: 9px;
+  }
+}
+
+/* ===== SNAP SCORE BADGE ===== */
+.snap-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.snap-score-badge:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
+
+/* Active: vivid orange-yellow gradient like Snapchat */
+.snap-score-active {
+  background: linear-gradient(135deg, #ff7e00, #ffcb00);
+  color: #1a1a1a;
+}
+
+/* Warning: amber pulse */
+.snap-score-warning {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #1a1a1a;
+  animation: pulseBadge 1.5s ease-in-out infinite;
+}
+
+/* Decayed: muted red */
+.snap-score-decayed {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  color: #fff;
+}
+
+/* Reset: dark grey */
+.snap-score-reset {
+  background: linear-gradient(135deg, #374151, #6b7280);
+  color: #fff;
+}
+
+.snap-score-number {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.snap-score-status-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+@keyframes pulseBadge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.6); }
+  50%        { box-shadow: 0 0 0 6px rgba(245,158,11,0); }
 }

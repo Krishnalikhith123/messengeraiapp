@@ -1,0 +1,445 @@
+/* Pinned messages bar */
+.pinned-messages-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(99, 102, 241, 0.15);
+  border-bottom: 1px solid var(--border-light);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.pinned-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-glass);
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid var(--border-light);
+  transition: background 0.2s;
+}
+
+.pinned-chip:hover {
+  background: rgba(99, 102, 241, 0.25);
+}
+
+.pinned-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  padding: 0 2px;
+}
+
+/* Chat search panel */
+.chat-search-panel {
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.chat-search-panel input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.search-results-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.message.search-match .message-content {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+}
+
+.search-highlight {
+  background: rgba(250, 204, 21, 0.4);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Link preview card */
+.link-preview-card {
+  margin-top: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  background: rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.link-preview-card img {
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+}
+
+.link-preview-body {
+  padding: 10px 12px;
+}
+
+.link-preview-body h5 {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+
+.link-preview-body p {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* Mentions */
+.mention-tag {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Delivery receipts */
+.read-receipt.delivered {
+  color: #94a3b8;
+}
+
+.read-receipt.read {
+  color: #38bdf8;
+}
+
+/* Message meta badges */
+.message-meta-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.msg-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0.85;
+}
+
+.msg-badge.edited { color: #fbbf24; }
+.msg-badge.scheduled { color: #a78bfa; }
+.msg-badge.forwarded { color: #34d399; }
+.msg-badge.pinned { color: #f472b6; }
+
+/* Multi-select */
+.message.multi-selected {
+  background: rgba(99, 102, 241, 0.12);
+  border-radius: 12px;
+}
+
+.msg-select-checkbox {
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.multi-select-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-light);
+}
+
+.multi-select-toolbar button {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Expanded message actions */
+.message-actions-menu.expanded {
+  flex-wrap: wrap;
+  max-width: 280px;
+  gap: 4px;
+}
+
+.message-actions-menu .action-icon-btn {
+  padding: 6px 8px;
+}
+
+/* Voice speed */
+.voice-speed-controls {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.voice-speed-btn {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.voice-speed-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Document message */
+.document-message-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.document-icon {
+  font-size: 2rem;
+}
+
+.document-info a {
+  color: #38bdf8;
+  font-size: 13px;
+}
+
+/* GIF message */
+.gif-message img {
+  max-width: 220px;
+  border-radius: 12px;
+}
+
+/* Message effects */
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(0) rotate(0); }
+  100% { opacity: 0; transform: translateY(-80px) rotate(360deg); }
+}
+
+.message.effect-confetti::after,
+.message.effect-hearts::after,
+.message.effect-fireworks::after,
+.message.effect-balloons::after {
+  content: '🎉';
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  font-size: 24px;
+  animation: confettiFall 2s ease-out forwards;
+  pointer-events: none;
+}
+
+.message.effect-hearts::after { content: '❤️'; }
+.message.effect-fireworks::after { content: '🎆'; }
+.message.effect-balloons::after { content: '🎈'; }
+
+/* Input extras toolbar */
+.input-extras-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 0;
+}
+
+.input-extra-btn {
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-glass);
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.input-extra-btn:hover,
+.input-extra-btn.active {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.mention-suggestions {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
+  margin-bottom: 8px;
+}
+
+.mention-suggestion-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mention-suggestion-item:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.gif-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.gif-picker-item {
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.gif-picker-item:hover {
+  border-color: var(--primary-color);
+}
+
+.gif-picker-item img {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+}
+
+.draft-indicator {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 4px 16px 0;
+}
+
+/* Modals shared */
+.messaging-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.messaging-modal {
+  background: var(--bg-surface);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-light);
+}
+
+.messaging-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.messaging-modal-header h4 {
+  margin: 0;
+}
+
+.messaging-modal-header button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.messaging-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.messaging-modal-footer .cancel-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.messaging-modal-footer .confirm-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.forward-chat-list {
+  padding: 12px 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.forward-chat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+.forward-chat-item.selected {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.muted-text {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 20px;
+}
+
+/* Quoted reply clickable */
+.quoted-reply.clickable {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.quoted-reply.clickable:hover {
+  opacity: 0.85;
+}
+
+/* Starred indicator on bubble */
+.starred-indicator {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 12px;
+}

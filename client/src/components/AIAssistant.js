@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FiMessageSquare, FiX, FiSend, FiCpu, FiMic } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -7,6 +8,7 @@ import { useAuthStore } from '../store/authStore';
 import '../styles/AIAssistant.css';
 
 const AIAssistant = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [isGreeting, setIsGreeting] = useState(true);
     const [message, setMessage] = useState('');
@@ -20,6 +22,10 @@ const AIAssistant = () => {
     const wakeRecognitionRef = useRef(null); // Ref to abort recognition manually
     const commandRecognitionRef = useRef(null); // Ref to abort command recognition
     const chatEndRef = useRef(null);
+    
+    // News Option State
+    const [newsFeed, setNewsFeed] = useState([]);
+    const [isNewsPopupOpen, setIsNewsPopupOpen] = useState(false);
     
     // Voice Queue State
     const { socket } = useSocketStore();
@@ -149,10 +155,23 @@ const AIAssistant = () => {
             });
         };
 
+        const handleMessageReminder = (data) => {
+            toast(`⏰ ${data.note}`, { duration: 8000, icon: '🔔' });
+            speakText(`Reminder: ${data.note}. ${data.snippet || ''}`);
+        };
+
+        const handleKaneVoiceAlert = ({ text }) => {
+            if (text) speakText(text);
+        };
+
         socket.on('event-reminder', handleEventReminder);
+        socket.on('message-reminder', handleMessageReminder);
+        socket.on('kane-voice-alert', handleKaneVoiceAlert);
 
         return () => {
             socket.off('event-reminder', handleEventReminder);
+            socket.off('message-reminder', handleMessageReminder);
+            socket.off('kane-voice-alert', handleKaneVoiceAlert);
         };
     }, [socket]);
 
@@ -338,6 +357,193 @@ const AIAssistant = () => {
         });
     };
 
+    const normalizeHealthType = (value = '') => {
+        const text = value.toLowerCase().replace(/\s+/g, '_');
+        const map = {
+            gym_streak: 'gym',
+            gym: 'gym',
+            workout: 'gym',
+            workouts: 'gym',
+            walking_steps: 'walking',
+            walk: 'walking',
+            walking: 'walking',
+            steps: 'walking',
+            drink_water: 'water',
+            drinking_water: 'water',
+            water: 'water',
+            healthy_food: 'healthy_food',
+            food: 'healthy_food',
+            diet: 'healthy_food',
+            medication: 'medication',
+            medicine: 'medication',
+            medications: 'medication',
+            meditation: 'meditation',
+            sleep: 'sleep',
+            stretching: 'stretching',
+            running: 'running',
+            cycling: 'cycling',
+            yoga: 'yoga',
+            screen_break: 'screen_break',
+            screen_breaks: 'screen_break',
+            protein: 'protein',
+            skincare: 'skincare',
+            skin_care: 'skincare',
+            journaling: 'journaling',
+            journal: 'journaling'
+        };
+        return map[text] || text;
+    };
+
+    const parseDayNames = (spoken = '') => {
+        const lower = spoken.toLowerCase();
+        const dayMap = [
+            ['sunday', 0],
+            ['monday', 1],
+            ['tuesday', 2],
+            ['wednesday', 3],
+            ['thursday', 4],
+            ['friday', 5],
+            ['saturday', 6]
+        ];
+        return dayMap.filter(([name]) => lower.includes(name)).map(([, value]) => value);
+    };
+
+    const askHealthQuestion = async (question) => {
+        await speakText(question.label);
+        while (window.speechSynthesis && window.speechSynthesis.speaking) {
+            await new Promise(r => setTimeout(r, 100));
+        }
+        const answer = await listenForCommand();
+        if (!answer) return question.defaultValue;
+        if (question.type === 'number') {
+            const number = Number((answer.match(/\d+/) || [question.defaultValue])[0]);
+            return Number.isFinite(number) ? number : question.defaultValue;
+        }
+        if (question.type === 'days') {
+            return parseDayNames(answer);
+        }
+        return answer;
+    };
+
+    const handleStartHealthHabitVoice = async (intent) => {
+        const habitType = normalizeHealthType(intent.habitType);
+        const suggestionsRes = await axios.get('/api/health/habit-suggestions');
+        const suggestions = suggestionsRes.data.suggestions || [];
+        const habit = suggestions.find((item) => item.type === habitType);
+        if (!habit) {
+            await speakText("I can start gym, walking, water, healthy food, medication, meditation, sleep, stretching, running, cycling, yoga, screen break, protein, skincare, or journaling streaks. Which one do you want?");
+            const answer = await listenForCommand();
+            const chosenType = normalizeHealthType(answer || '');
+            const chosenHabit = suggestions.find((item) => item.type === chosenType);
+            if (!chosenHabit) {
+                await speakText("Sorry boss, I could not identify that health habit.");
+                return;
+            }
+            return handleStartHealthHabitVoice({ ...intent, habitType: chosenHabit.type });
+        }
+
+        const details = intent.details || {};
+        const answers = {};
+        await speakText(`Okay boss, let's set up your ${habit.title}. I will ask a few quick questions.`);
+
+        for (const question of habit.questions) {
+            if (details[question.key] !== undefined) {
+                answers[question.key] = details[question.key];
+            } else {
+                answers[question.key] = await askHealthQuestion(question);
+            }
+        }
+
+        const res = await axios.post('/api/health/habit-plans', {
+            type: habit.type,
+            title: habit.title,
+            answers
+        });
+        toast.success(res.data.message || `${habit.title} started`);
+        await speakText(res.data.message || `${habit.title} will start tomorrow.`);
+        navigate('/advanced');
+    };
+
+    const handleHealthHabitCheckInVoice = async (intent) => {
+        const habitType = normalizeHealthType(intent.habitType);
+        const plansRes = await axios.get('/api/health/habit-plans');
+        const plans = plansRes.data.plans || [];
+        const matchingPlans = plans.filter((plan) => (
+            plan.status === 'active' &&
+            (plan.type === habitType || plan.title?.toLowerCase().includes(habitType.replace('_', ' ')))
+        ));
+
+        let plan = matchingPlans[0];
+        if (!plan) {
+            await speakText("I could not find an active plan for that habit. Do you want me to open the health hub?");
+            navigate('/advanced');
+            return;
+        }
+
+        const res = await axios.post(`/api/health/habit-plans/${plan._id}/check-in`, {
+            value: intent.value || 'done',
+            note: intent.note || 'Voice check-in'
+        });
+        toast.success(res.data.message);
+        await speakText(res.data.message);
+    };
+
+    const handleDailyActivitySummaryVoice = async () => {
+        const res = await axios.get('/api/analytics/today');
+        const habits = res.data.habitCheckIns || [];
+        const habitText = habits.length
+            ? ` Your health check-ins today are: ${habits.map((h) => `${h.title}, streak ${h.streak}`).join('; ')}.`
+            : ' You have not checked in on any health habits yet today.';
+        await speakText(`${res.data.summary}${habitText}`);
+    };
+
+    const handleSnapScoreVoice = async () => {
+        if (!user?.id) {
+            await speakText("I could not find your profile right now.");
+            return;
+        }
+        const res = await axios.get(`/api/snaps/score/${user.id}`);
+        const friendScores = Object.values(res.data.friendScores || {});
+        const bestFriendScore = friendScores.reduce((best, item) => Math.max(best, item?.score || 0), 0);
+        await speakText(`Your snap score is ${res.data.snapScore || 0}. Your best friendship snap score is ${bestFriendScore}.`);
+    };
+
+    const handleRelationshipAnalyticsVoice = async (intent) => {
+        const res = await axios.get('/api/analytics/relationships');
+        let relationships = res.data.relationships || [];
+        if (intent.friendName) {
+            const needle = intent.friendName.toLowerCase();
+            relationships = relationships.filter((item) => item.friendName?.toLowerCase().includes(needle));
+        }
+        if (relationships.length === 0) {
+            await speakText(intent.friendName ? `I could not find relationship analytics for ${intent.friendName}.` : 'I do not have enough relationship data yet.');
+            return;
+        }
+        const top = relationships.slice(0, intent.friendName ? 1 : 3);
+        const text = top.map((item) => (
+            `${item.friendName}: chemistry index ${item.chemistryIndex}, ${item.totalMessages} total messages, and snap streak ${item.snapStreak}`
+        )).join('. ');
+        await speakText(intent.friendName ? text : `Your top relationship summaries are: ${text}.`);
+    };
+
+    const handleGamingLeaderboardVoice = async () => {
+        if (!user?.id) {
+            await speakText("I could not find your profile right now.");
+            return;
+        }
+        const [tournamentRes, leaderboardRes] = await Promise.all([
+            axios.get('/api/games/tournament'),
+            axios.get('/api/games/leaderboard')
+        ]);
+        const tournament = tournamentRes.data;
+        const weeklyBoard = tournament.leaderboard || [];
+        const allBoard = leaderboardRes.data || [];
+        const weeklyRank = weeklyBoard.findIndex((item) => item._id === user.id) + 1;
+        const overallRank = allBoard.findIndex((item) => item._id === user.id) + 1;
+        const first = weeklyBoard[0]?.username || allBoard[0]?.username || 'no one yet';
+        await speakText(`This week's first place is ${first}. You have ${tournament.myPoints || 0} tournament points. Your weekly rank is ${weeklyRank || 'not ranked yet'}, and your overall game leaderboard rank is ${overallRank || 'not ranked yet'}.`);
+    };
+
     const handleCommandFlow = async () => {
         if (!isMountedRef.current) return;
         
@@ -500,10 +706,201 @@ const AIAssistant = () => {
                     await speakText(sumRes.data.summary);
                 }
             }
+            else if (intent.action === 'activate_ghost_mode') {
+                toast.success(`Activating Ghost Mode...`, { id: 'ai-intent' });
+                
+                await speakText("Sure thing, boss. What is the reason you are turning on ghost mode?");
+                
+                while (window.speechSynthesis && window.speechSynthesis.speaking) {
+                    await new Promise(r => setTimeout(r, 100));
+                }
+                await new Promise(r => setTimeout(r, 600));
+
+                toast("Listening for reason...", { icon: '🎤', id: 'ai-ghost-reason', duration: 15000 });
+                const reasonResponse = await listenForCommand();
+                toast.dismiss('ai-ghost-reason');
+                
+                const finalReason = reasonResponse && reasonResponse.trim() ? reasonResponse : "offline for a bit";
+                console.log("🎤 Ghost Mode Reason capture:", finalReason);
+
+                await speakText("Understood. And when will you be back online? Exact time or duration.");
+                
+                while (window.speechSynthesis && window.speechSynthesis.speaking) {
+                    await new Promise(r => setTimeout(r, 100));
+                }
+                await new Promise(r => setTimeout(r, 600));
+
+                toast("Listening for return time...", { icon: '🎤', id: 'ai-ghost-time', duration: 15000 });
+                const timeResponse = await listenForCommand();
+                toast.dismiss('ai-ghost-time');
+
+                const finalTime = timeResponse && timeResponse.trim() ? timeResponse : "later";
+                console.log("🎤 Ghost Mode Return Time capture:", finalTime);
+
+                try {
+                    await axios.post('/api/users/ghost-mode', {
+                        active: true,
+                        reason: finalReason,
+                        returnTime: finalTime
+                    });
+                    
+                    toast.success("Ghost Mode activated!", { id: 'ai-intent' });
+                    await speakText(`Excellent, boss. Ghost mode is active. I will tell your friends you are: ${finalReason}, and will be back at: ${finalTime}.`);
+                } catch (err) {
+                    console.error('Failed to activate ghost mode via AI:', err);
+                    await speakText("Sorry, I had trouble enabling ghost mode on the server.");
+                }
+            }
+            else if (intent.action === 'add_contact') {
+                let contactName = intent.contactName;
+                
+                if (!contactName) {
+                    await speakText("Sure, who would you like me to add as a contact?");
+                    while (window.speechSynthesis && window.speechSynthesis.speaking) {
+                        await new Promise(r => setTimeout(r, 100));
+                    }
+                    await new Promise(r => setTimeout(r, 600));
+
+                    toast("Listening for contact name...", { icon: '🎤', id: 'ai-contact-name', duration: 15000 });
+                    const nameResponse = await listenForCommand();
+                    toast.dismiss('ai-contact-name');
+                    
+                    if (nameResponse && nameResponse.trim()) {
+                        contactName = nameResponse.trim();
+                    }
+                }
+
+                if (!contactName) {
+                    await speakText("I didn't catch the contact name. Going back to sleep.");
+                    return;
+                }
+
+                toast.loading(`Searching for "${contactName}"...`, { id: 'ai-contact-search' });
+
+                try {
+                    const searchRes = await axios.get(`/api/users/search/${encodeURIComponent(contactName)}`);
+                    const foundUsers = searchRes.data;
+
+                    if (!foundUsers || foundUsers.length === 0) {
+                        toast.error(`No user found matching "${contactName}"`, { id: 'ai-contact-search' });
+                        await speakText(`I couldn't find any users named ${contactName} in the system.`);
+                    } else {
+                        const targetUser = foundUsers[0];
+                        
+                        await axios.post('/api/users/contacts/add', { contactId: targetUser._id });
+                        
+                        toast.success(`Successfully added ${targetUser.username}!`, { id: 'ai-contact-search' });
+                        await speakText(`Successfully added ${targetUser.username} to your contacts list!`);
+                    }
+                } catch (err) {
+                    console.error('Failed to add contact via AI:', err);
+                    toast.error("Failed to add contact", { id: 'ai-contact-search' });
+                    await speakText("Sorry, I had trouble adding that contact on the server.");
+                }
+            }
+            else if (intent.action === 'news') {
+                toast.success("Fetching 10 hot global news headlines...", { id: 'ai-intent' });
+                try {
+                    const res = await axios.get('/api/messages/daily-feed');
+                    let feedItems = res.data.feed || [];
+                    let worldNews = feedItems.filter(item => item.tag === 'World News');
+                    if (worldNews.length === 0) {
+                        worldNews = feedItems.slice(0, 10);
+                    } else {
+                        worldNews = worldNews.slice(0, 10);
+                    }
+                    
+                    setNewsFeed(worldNews);
+                    setIsNewsPopupOpen(true);
+                    
+                    await speakText("Here are the 10 hot global news headlines happening around the world. Would you like me to read the news details for you?");
+                    
+                    while (window.speechSynthesis && window.speechSynthesis.speaking) {
+                        await new Promise(r => setTimeout(r, 100));
+                    }
+                    await new Promise(r => setTimeout(r, 600));
+                    
+                    toast("Listening for yes or no...", { icon: '🎤', id: 'ai-news-read-prompt', duration: 10000 });
+                    const answer = await listenForResponse();
+                    toast.dismiss('ai-news-read-prompt');
+                    
+                    if (answer === 'yes') {
+                        await speakText("Understood. I will read each news headline and detail for you now.");
+                        for (let i = 0; i < worldNews.length; i++) {
+                            const item = worldNews[i];
+                            await speakText(`Headline ${i + 1}: ${item.title}. Details: ${item.content}`);
+                            await new Promise(r => setTimeout(r, 800));
+                        }
+                        await speakText("That is all the news for today, boss.");
+                    } else {
+                        await speakText("Understood, shutting off the news reader.");
+                        setIsNewsPopupOpen(false);
+                    }
+                } catch (err) {
+                    console.error('Failed to get global news feed:', err);
+                    await speakText("Sorry boss, I was unable to fetch the global hot news right now.");
+                }
+            }
+            else if (intent.action === 'set_message_reminder') {
+                toast.success('Setting message reminder...', { id: 'ai-intent' });
+                const pending = window.__chatflowPendingReminder || {};
+                try {
+                    const parseRes = await axios.post('/api/companion/parse-reminder', {
+                        transcript: command,
+                        messageSnippet: pending.snippet || ''
+                    });
+                    await axios.post('/api/reminders', {
+                        messageId: pending.messageId || null,
+                        chatId: pending.chatId || null,
+                        note: parseRes.data.note || intent.note || 'Message reminder',
+                        remindAt: parseRes.data.remindAt,
+                        createdViaVoice: true
+                    });
+                    const when = new Date(parseRes.data.remindAt).toLocaleString();
+                    await speakText(`Got it! I'll remind you ${parseRes.data.note || ''} at ${when}.`);
+                    toast.success(`Reminder set for ${when}`, { id: 'ai-intent' });
+                } catch (err) {
+                    console.error(err);
+                    await speakText('Sorry, I could not set that reminder.');
+                }
+            }
+            else if (intent.action === 'open_music') {
+                toast.success('Opening Music Hub', { id: 'ai-intent' });
+                if (intent.songQuery) {
+                    navigate(`/music?q=${encodeURIComponent(intent.songQuery)}`);
+                } else {
+                    navigate('/music');
+                }
+                await speakText(intent.songQuery ? `Searching music for ${intent.songQuery}` : 'Opening your music hub now.');
+            }
+            else if (intent.action === 'start_health_habit') {
+                toast.success('Starting health habit setup...', { id: 'ai-intent' });
+                await handleStartHealthHabitVoice(intent);
+            }
+            else if (intent.action === 'health_habit_checkin') {
+                toast.success('Updating health streak...', { id: 'ai-intent' });
+                await handleHealthHabitCheckInVoice(intent);
+            }
+            else if (intent.action === 'daily_activity_summary') {
+                toast.success("Preparing today's recap...", { id: 'ai-intent' });
+                await handleDailyActivitySummaryVoice();
+            }
+            else if (intent.action === 'snap_score') {
+                toast.success('Checking snap score...', { id: 'ai-intent' });
+                await handleSnapScoreVoice();
+            }
+            else if (intent.action === 'relationship_analytics') {
+                toast.success('Checking relationship analytics...', { id: 'ai-intent' });
+                await handleRelationshipAnalyticsVoice(intent);
+            }
+            else if (intent.action === 'gaming_leaderboard') {
+                toast.success('Checking gaming leaderboard...', { id: 'ai-intent' });
+                await handleGamingLeaderboardVoice();
+            }
             else {
                 console.warn("🎤 AI Intent Action Unknown:", intent);
                 toast.error(`I'm not sure what you mean by "${command}"`, { id: 'ai-intent' });
-                await speakText(`I heard you say: ${command}. But I'm not sure how to help with that yet. Try saying: create a group, or catch me up.`);
+                await speakText(`I heard you say: ${command}. But I'm not sure how to help with that yet. Try saying: start gym streak, I went to gym today, tell me the news, create a group, or catch me up.`);
             }
         } catch (error) {
             console.error("🎤 AI Intent Error:", error);
@@ -705,6 +1102,17 @@ const AIAssistant = () => {
             processQueue();
         }
     };
+
+    const readNewsAloud = async () => {
+        if (newsFeed.length === 0) return;
+        await speakText("Reading global headlines and summaries now.");
+        for (let i = 0; i < newsFeed.length; i++) {
+            const item = newsFeed[i];
+            await speakText(`Headline ${i + 1}: ${item.title}. Details: ${item.content}`);
+            await new Promise(r => setTimeout(r, 600));
+        }
+        await speakText("Completed reading global headlines.");
+    };
     // ------------------------------------
 
     const togglePopup = () => {
@@ -895,6 +1303,53 @@ const AIAssistant = () => {
             <button className={`ai-fab ${isOpen ? 'open' : ''}`} onClick={togglePopup}>
                 {isOpen ? <FiX size={28} /> : <FiMessageSquare size={28} />}
             </button>
+
+            {/* Global Hot News Option Modal Popup */}
+            {isNewsPopupOpen && (
+                <div className="global-news-modal-overlay">
+                    <div className="global-news-modal-card">
+                        <div className="global-news-modal-header">
+                            <div className="global-news-glowing-indicator">🔥 LIVE NEWS</div>
+                            <h2>Kane Global Hot News</h2>
+                            <button className="global-news-close-btn" onClick={() => {
+                                setIsNewsPopupOpen(false);
+                                window.speechSynthesis.cancel();
+                            }}>
+                                <FiX size={20} />
+                            </button>
+                        </div>
+                        
+                        <div className="global-news-modal-body">
+                            {newsFeed.length === 0 ? (
+                                <div className="global-news-loading">
+                                    <div className="spinner">🔮</div>
+                                    <p>Tuning into world channels...</p>
+                                </div>
+                            ) : (
+                                newsFeed.map((item, idx) => (
+                                    <div className="global-news-item" key={idx}>
+                                        <div className="global-news-item-badge">{item.tag || 'World News'}</div>
+                                        <h4 className="global-news-item-title">{idx + 1}. {item.title}</h4>
+                                        <p className="global-news-item-content">{item.content}</p>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        <div className="global-news-modal-footer">
+                            <button className="global-news-btn-primary" onClick={readNewsAloud}>
+                                🔊 Read Aloud
+                            </button>
+                            <button className="global-news-btn-secondary" onClick={() => {
+                                setIsNewsPopupOpen(false);
+                                window.speechSynthesis.cancel();
+                            }}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
